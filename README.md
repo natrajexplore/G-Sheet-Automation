@@ -90,7 +90,7 @@ to use.
 
 The current workflow sends to:
 
-angappanmuthusamy@gmail.com
+example@gmail.com
 
 Change the Send To field if you want to deliver the email to another
 address.
