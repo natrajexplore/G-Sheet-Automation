@@ -1,0 +1,151 @@
+{
+  "name": "Google Sheet Automation",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -368,
+        -80
+      ],
+      "id": "ba788827-67c7-4f71-b2b0-5a96f9911a41",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1X5t9gHEaWkn5n5wjr3pGBf5Tz26OVkmgjwIuixk82eA/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1X5t9gHEaWkn5n5wjr3pGBf5Tz26OVkmgjwIuixk82eA/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "filtersUI": {
+          "values": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -144,
+        -80
+      ],
+      "id": "5cf52713-31bd-42af-b884-420e00922fe5",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "yrmjLhejjAwySh26",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e4f15cc6-5680-42f1-a563-0052a4568b9c",
+              "name": "emailSubject",
+              "value": "Data Summary from Google Sheet",
+              "type": "string"
+            },
+            {
+              "id": "0067a1cd-68fb-4e5a-adef-ced60279e3c3",
+              "name": "emailBody",
+              "value": "=Hi All,  Here is the latest data from the sheet: \n\n- Name:  {{ $json['Name '] }}\n- Course: {{ $json.Course }} \n- Status: {{ $json.Status }}  \n\nRegards, \nExplore AI,",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        80,
+        -80
+      ],
+      "id": "65818323-9f0e-456a-92f6-c033a60d8569",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sendTo": "angappanmuthusamy@gmail.com",
+        "subject": "={{ $json.emailSubject }}",
+        "message": "={{ $json.emailBody }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        304,
+        -80
+      ],
+      "id": "f994723d-21ac-4b73-b51b-115759ff16bf",
+      "name": "Send a message",
+      "webhookId": "b1cb175a-22c8-4bd5-a47e-4279a7e25da1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GI9LdkXIdK2yUYko",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "cf01c30f-6b1d-4fb7-84d3-21a5b45f65cf",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7f3e87056735cd6d8533f65b2daa6ccadfcef4721c5e2b5f2772fe3650f87dbf"
+  },
+  "nodeGroups": [],
+  "id": "6x1BxB3zkesQNWn4",
+  "tags": []
+}
